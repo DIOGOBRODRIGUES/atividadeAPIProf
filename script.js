@@ -94,6 +94,90 @@ createUserForm.addEventListener('submit', (e) => {
 });
 
 
+// 3. PUT/PATCH - Atualizar usuário existente
+updateUserForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const id = document.getElementById('update_id').value.trim();
+    const firstName = document.getElementById('update_first_name').value.trim();
+    const lastName = document.getElementById('update_last_name').value.trim();
+    const email = document.getElementById('update_email').value.trim();
+
+    if (!id) {
+        showMessage('Por favor, insira o ID do usuário.', 'error');
+        return;
+    }
+
+    // Preparar os dados para atualização
+    const updateData = {};
+    if (firstName) updateData.first_name = firstName;
+    if (lastName) updateData.last_name = lastName;
+    if (email) updateData.email = email;
+
+    if (Object.keys(updateData).length === 0) {
+        showMessage('Por favor, preencha ao menos um campo para atualizar.', 'error');
+        return;
+    }
+
+    fetch(`https://reqres.in/api/users/${id}`, {
+        method: 'PUT', // ou 'PATCH'
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updateData)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.updatedAt) {
+                showMessage(`Usuário ${id} atualizado com sucesso!`, 'success');
+                updateUserForm.reset();
+
+                // Atualizar o usuário na lista localmente
+                const userIndex = usersData.findIndex(user => user.id == id);
+                if (userIndex !== -1) {
+                    if (firstName) usersData[userIndex].first_name = firstName;
+                    if (lastName) usersData[userIndex].last_name = lastName;
+                    if (email) usersData[userIndex].email = email;
+                    displayUsers(usersData);
+                }
+            } else {
+                showMessage('Erro ao atualizar usuário.', 'error');
+            }
+        })
+        .catch(error => {
+            showMessage('Erro ao atualizar usuário.', 'error');
+            console.error('Erro:', error);
+        });
+});
+
+// 4. DELETE - Deletar usuário
+deleteUserForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const id = document.getElementById('delete_id').value.trim();
+
+    if (!id) {
+        showMessage('Por favor, insira o ID do usuário.', 'error');
+        return;
+    }
+
+    fetch(`https://reqres.in/api/users/${id}`, {
+        method: 'DELETE'
+    })
+        .then(response => {
+            if (response.status === 204) {
+                showMessage(`Usuário ${id} deletado com sucesso!`, 'success');
+                deleteUserForm.reset();
+
+                // Remover o usuário da lista localmente
+                usersData = usersData.filter(user => user.id != id);
+                displayUsers(usersData);
+            } else {
+                showMessage('Erro ao deletar usuário.', 'error');
+            }
+        })
+        .catch(error => {
+            showMessage('Erro ao deletar usuário.', 'error');
+            console.error('Erro:', error);
+        });
+});
+
 // Função para exibir a lista de usuários
 function displayUsers(users) {
     userList.innerHTML = '';

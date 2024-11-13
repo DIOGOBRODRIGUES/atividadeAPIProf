@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciador de Usuários - Reqres.in</title>
+    <!-- Link para o arquivo CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>Gerenciador de Usuários</h1>
+
+    <!-- Seção para listar usuários -->
+    <section id="user-list-section">
+        <h2>Lista de Usuários</h2>
+        <button id="load-users-btn">Carregar Usuários</button>
+        <ul id="user-list"></ul>
+    </section>
+
+    <!-- Seção para criar um novo usuário -->
+    <section id="create-user-section">
+        <h2>Criar Novo Usuário</h2>
+        <form id="create-user-form">
+            <input type="text" id="first_name" placeholder="Primeiro Nome" required>
+            <input type="text" id="last_name" placeholder="Último Nome" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <button type="submit">Criar Usuário</button>
+        </form>
+    </section>
+
+    <!-- Seção para atualizar um usuário existente -->
+    <section id="update-user-section">
+        <h2>Atualizar Usuário</h2>
+        <form id="update-user-form">
+            <input type="number" id="update_id" placeholder="ID do Usuário" required>
+            <input type="text" id="update_first_name" placeholder="Novo Primeiro Nome">
+            <input type="text" id="update_last_name" placeholder="Novo Último Nome">
+            <input type="email" id="update_email" placeholder="Novo Email">
+            <button type="submit">Atualizar Usuário</button>
+        </form>
+    </section>
+
+    <!-- Seção para deletar um usuário -->
+    <section id="delete-user-section">
+        <h2>Deletar Usuário</h2>
+        <form id="delete-user-form">
+            <input type="number" id="delete_id" placeholder="ID do Usuário" required>
+            <button type="submit">Deletar Usuário</button>
+        </form>
+    </section>
+
+    <!-- Seção para exibir mensagens -->
+    <div id="message"></div>
+
+    <!-- Link para o arquivo JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
